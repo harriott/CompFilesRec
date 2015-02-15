@@ -23,52 +23,53 @@ startd = datetime.datetime.now().isoformat(' ')
 mpt = '/media/jo/'
 hd0 = 'WD1001FALS'
 # Setup a list of folder pairs:
-fldrs = [
+fldr = [
     # 'WD1001FALS/Vs Conflict',
     '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/SamsungM3/Vs Unseen',
     '/mnt/WD1001FALS/Vs Technos/', '/run/media/jo/Expansion Drive/Vs Technos/',
     ]
-fldrn = len(fldrs)
+fldrn = len(fldr)
 hd1 = 'Expansion Drive'
-fldr = '/Vs Technos'
+snglfldr = '/Vs Technos'
 
 
 # function to create file lists with relative paths included:
 def filelister(listdir):
-#   initialise a list just with the base folder path:
-    flc = 0
+    # initialise a list just with the base folder path:
+    flrc = 0
     fileList = [listdir]
     for root, folders, files in os.walk(listdir):
         for file in files:
             # indication of progress:
-            flc += 1
-            # print(flc, end='\r', flush=True)
+            flrc += 1
+            # print(flrc, end='\r', flush=True)
             # - works, but Flake8 reports as invalid syntax E901, so:
-            sys.stdout.write('\r' + str(flc))
+            sys.stdout.write('\r' + str(flrc))
             sys.stdout.flush()
             abspath = os.path.join(root, file)
             # take listdir out of the printout:
             fileList.append(abspath.replace(listdir + "/", "") +
                             # add file's bytesize:
                             "  ("+str(os.path.getsize(abspath))+" bytes)")
-    return fileList
+    return fileList, flrc
 
-for ifldrs in range(fldrn):
-    print(fldrs[ifldrs])
-    # Create the lists for each folder-pair
+for ifldr in range(int(fldrn/2)):
+    print(fldr[ifldr], "<=>", fldr[ifldr+1])
+    # Create the lists for each folder-pair:
     list = [[], []]
-# appending to the first (root folder name) items the count:
-fldr0 = mpt+hd0+fldr
-print('Looking at contents of', fldr0)
-list0 = filelister(fldr0)
-ll0 = len(list0)
-list0[0] += ' - contains '+str(ll0-1)+' files, these ones unmatched:'
-print(' - file records loaded in.')
+    # and the two counts:
+    flc = [0, 0]
+    # appending to the first (root folder name) items the count:
+    print('Looking at contents of', fldr[ifldr])
+    list[0], flc[0] = filelister(fldr[ifldr])
+    list[0][0] += ' - contains '+str(flc[0])+' files, these ones unmatched:'
+    print(' - file records loaded in.')
+ll0 = flc[0]
+list0 = list[0]
 
-fldr1 = mpt+hd1+fldr
+fldr1 = mpt+hd1+snglfldr
 print('Looking at contents of', fldr1)
-list1 = filelister(fldr1)
-ll1 = len(list1)
+list1, ll1 = filelister(fldr1)
 list1[0] += ' - contains '+str(ll1-1)+' files, these ones unmatched:'
 print(' - file records loaded in.')
 
