@@ -38,6 +38,7 @@ def filelister(listdir):
     # initialise a list just with the base folder path:
     flrc = 0
     fileList = [listdir]
+    print('Looking at contents of', fileList[0])
     for root, folders, files in os.walk(listdir):
         for file in files:
             # indication of progress:
@@ -55,15 +56,17 @@ def filelister(listdir):
 
 for ifldr in range(int(fldrn/2)):
     print(fldr[ifldr], "<=>", fldr[ifldr+1])
-    # Create the lists for each folder-pair:
+    # Initialise the lists for each folder-pair:
     list = [[], []]
     # and the two counts:
     flc = [0, 0]
-    # appending to the first (root folder name) items the count:
-    print('Looking at contents of', fldr[ifldr])
-    list[0], flc[0] = filelister(fldr[ifldr])
-    list[0][0] += ' - contains '+str(flc[0])+' files, these ones unmatched:'
-    print(' - file records loaded in.')
+    # fill them:
+    for fpair in range(2):
+        list[fpair], flc[fpair] = filelister(fldr[ifldr+fpair])
+        # append to the first (root folder name) items the count:
+        list[fpair][fpair] += ' - contains '+str(flc[fpair])
+        list[fpair][fpair] += ' files, these ones unmatched:'
+        print(' - file records loaded in.')
 ll0 = flc[0]
 list0 = list[0]
 
