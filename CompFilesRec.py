@@ -26,10 +26,8 @@ hd0 = 'WD1001FALS'
 fldr = [
     # 'WD1001FALS/Vs Conflict',
     '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/SamsungM3/Vs Unseen',
-    # '/mnt/WD1001FALS/Vs Technos/',
-    # '/run/media/jo/Expansion Drive/Vs Technos/',
+    '/mnt/WD1001FALS/Vs Technos/', '/run/media/jo/Expansion Drive/Vs Technos/',
     ]
-fldrn = len(fldr)
 hd1 = 'Expansion Drive'
 snglfldr = '/Vs Technos'
 
@@ -66,7 +64,7 @@ wrt1 = socket.gethostname()+' disks: folder changes at '+startd+'\n\n'
 fo.write(wrt1)
 
 # Now get the lists of files, compare them, and write the differences:
-for ifldr in range(int(fldrn/2)):
+for ifldr in range(0, int(len(fldr)), 2):
     print(fldr[ifldr], "<=>", fldr[ifldr+1])
     #
     # Initialise the lists
@@ -83,7 +81,6 @@ for ifldr in range(int(fldrn/2)):
         fhead[fpair] = flist[fpair].pop(0) + ' - contains '+str(flc[fpair])
         fhead[fpair] += ' files, these ones unmatched:'
         flc[fpair] -= 1
-        print(fhead[fpair])
     #
     # Identify the index of the list to be picked through:
     # it can be the 2nd list:
@@ -96,12 +93,12 @@ for ifldr in range(int(fldrn/2)):
     #
     # working through first list, eliminate items duplicated in the second,
     # leaving two lists of unmatched items:
-    print('Looking for differences in the records now...')
+    print(' Looking for differences in the records now...')
     for ircomp in range(flc[d]):
         # Pull off the first item from the pick-list:
         item = flist[d].pop(0)
         # print an indication of progress:
-        sys.stdout.write('\r' + str(ircomp))
+        sys.stdout.write('\r  ' + str(ircomp))
         sys.stdout.flush()
         try:
             flist[dl].remove(item)
@@ -114,10 +111,10 @@ for ifldr in range(int(fldrn/2)):
     wrt2 = fhead[dl]+'\n'+'\n'.join(flist[dl])
     wrt2 += '\n\n'+fhead[d]+'\n'+'\n'.join(flist[2])
     # and the time taken:
-    wrt3 = '\n\ntook '+str(time.time()-start)
-    wrt3 += ' seconds to find the differences'
+    wrt3 = '\n\n- took '+str(time.time()-start)
+    wrt3 += ' seconds to find the differences.'+'\n\n'
     fo.write(wrt2+wrt3)
-print(' - all done, results are in \'' + flnm + '\'.')
+print('- all done, results are in \'' + flnm + '\'.')
 
 # write and close the file object:
 fo.close()
