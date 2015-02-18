@@ -26,7 +26,8 @@ hd0 = 'WD1001FALS'
 fldr = [
     # 'WD1001FALS/Vs Conflict',
     '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/SamsungM3/Vs Unseen',
-    '/mnt/WD1001FALS/Vs Technos/', '/run/media/jo/Expansion Drive/Vs Technos/',
+    # '/mnt/WD1001FALS/Vs Technos/',
+    # '/run/media/jo/Expansion Drive/Vs Technos/',
     ]
 fldrn = len(fldr)
 hd1 = 'Expansion Drive'
@@ -38,14 +39,14 @@ def filelister(listdir):
     # initialise a list just with the base folder path:
     flrc = 0
     fileList = [listdir]
-    print('Looking at contents of', fileList[0])
+    print(' Looking at contents of', fileList[0])
     for root, folders, files in os.walk(listdir):
         for file in files:
             # indication of progress:
             flrc += 1
             # print(flrc, end='\r', flush=True)
             # - works, but Flake8 reports as invalid syntax E901, so:
-            sys.stdout.write('\r' + str(flrc))
+            sys.stdout.write('\r  ' + str(flrc))
             sys.stdout.flush()
             abspath = os.path.join(root, file)
             # take listdir out of the printout:
@@ -54,55 +55,69 @@ def filelister(listdir):
                             "  ("+str(os.path.getsize(abspath))+" bytes)")
     return fileList, flrc
 
-for ifldr in range(int(fldrn/2)):
-    print(fldr[ifldr], "<=>", fldr[ifldr+1])
-    # Initialise the lists for each folder-pair:
-    list = [[], []]
-    # and the two counts:
-    flc = [0, 0]
-    # fill them:
-    for fpair in range(2):
-        list[fpair], flc[fpair] = filelister(fldr[ifldr+fpair])
-        # append to the first (root folder name) items the count:
-        list[fpair][fpair] += ' - contains '+str(flc[fpair])
-        list[fpair][fpair] += ' files, these ones unmatched:'
-        print(' - file records loaded in.')
-ll0 = flc[0]
-list0 = list[0]
 
-fldr1 = mpt+hd1+snglfldr
-print('Looking at contents of', fldr1)
-list1, ll1 = filelister(fldr1)
-list1[0] += ' - contains '+str(ll1-1)+' files, these ones unmatched:'
-print(' - file records loaded in.')
-
-# working through first list, eliminate items duplicated in the second,
-# leaving two lists of unmatched items:
-print('Looking for differences in the records now...')
-list2 = []
-for ircomp in range(ll0):
-    item = list0.pop(0)
-    # indication of progress:
-    sys.stdout.write('\r' + str(ircomp))
-    sys.stdout.flush()
-    try:
-        list1.remove(item)
-    except ValueError:
-        list2.append(item)
-list1.sort()
-list2.sort()
-# using a filename taken from this script's own name:
+# Begin the output file:
+# using an output filename taken from this script's own name:
 flnm = sys.argv[0].replace('./', '').replace('.py', '.')+'txt'
-print(' - all done, results are in \'' + flnm + '\'.')
-
 # create a file object for output:
 fo = open(flnm, 'w')
 # create a nice header:
-wrt1 = socket.gethostname()+' folder changes at '+startd+'\n\n'
-# the resulting unmatched items:
-wrt2 = '\n'.join(list1)+'\n\n'+'\n'.join(list2)
-# and the time taken:
-wrt3 = '\n\ntook '+str(time.time()-start)+' seconds to find the differences'
+wrt1 = socket.gethostname()+' disks: folder changes at '+startd+'\n\n'
+fo.write(wrt1)
+
+# Now get the lists of files, compare them, and write the differences:
+for ifldr in range(int(fldrn/2)):
+    print(fldr[ifldr], "<=>", fldr[ifldr+1])
+    #
+    # Initialise the lists
+    fhead = ['']*2
+    # (one for each folder-pair, and one for their diff-list):
+    flist = [[], [], []]
+    # and the two counts:
+    flc = [0]*2
+    # get the folder-pairs, with counts:
+    for fpair in range(2):
+        flist[fpair], flc[fpair] = filelister(fldr[ifldr+fpair])
+        print(' - file records loaded in.')
+        # pull off the first item (root folder name) and append the count:
+        fhead[fpair] = flist[fpair].pop(0) + ' - contains '+str(flc[fpair])
+        fhead[fpair] += ' files, these ones unmatched:'
+        flc[fpair] -= 1
+        print(fhead[fpair])
+    #
+    # Identify the index of the list to be picked through:
+    # it can be the 2nd list:
+    d = 1
+    # but not if the 1st is shorter:
+    if flc[0] < flc[1]:
+        d = 0
+    # Get the index for the other (possibly longer) list:
+    dl = abs(d-1)
+    #
+    # working through first list, eliminate items duplicated in the second,
+    # leaving two lists of unmatched items:
+    print('Looking for differences in the records now...')
+    for ircomp in range(flc[d]):
+        # Pull off the first item from the pick-list:
+        item = flist[d].pop(0)
+        # print an indication of progress:
+        sys.stdout.write('\r' + str(ircomp))
+        sys.stdout.flush()
+        try:
+            flist[dl].remove(item)
+        except ValueError:
+            flist[2].append(item)
+    flist[dl].sort()
+    flist[2].sort()
+    print(' - subdirectory records compared')
+    # write the resulting unmatched items:
+    wrt2 = fhead[dl]+'\n'+'\n'.join(flist[dl])
+    wrt2 += '\n\n'+fhead[d]+'\n'+'\n'.join(flist[2])
+    # and the time taken:
+    wrt3 = '\n\ntook '+str(time.time()-start)
+    wrt3 += ' seconds to find the differences'
+    fo.write(wrt2+wrt3)
+print(' - all done, results are in \'' + flnm + '\'.')
+
 # write and close the file object:
-fo.write(wrt1+wrt2+wrt3)
 fo.close()
