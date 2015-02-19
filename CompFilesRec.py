@@ -20,16 +20,12 @@ start = time.time()
 startd = datetime.datetime.now().isoformat(' ')
 
 # specify the hard drive folders that I want to look in:
-mpt = '/media/jo/'
-hd0 = 'WD1001FALS'
 # Setup a list of folder pairs:
-fldr = [
+fpairs = [
     # 'WD1001FALS/Vs Conflict',
     '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/SamsungM3/Vs Unseen',
-    '/mnt/WD1001FALS/Vs Technos/', '/run/media/jo/Expansion Drive/Vs Technos/',
+    '/mnt/WD1001FALS/Vs Technos', '/run/media/jo/Expansion Drive/Vs Technos',
     ]
-hd1 = 'Expansion Drive'
-snglfldr = '/Vs Technos'
 
 
 # function to create file lists with relative paths included:
@@ -64,8 +60,8 @@ wrt1 = socket.gethostname()+' disks: folder changes at '+startd+'\n\n'
 fo.write(wrt1)
 
 # Now get the lists of files, compare them, and write the differences:
-for ifldr in range(0, int(len(fldr)), 2):
-    print(fldr[ifldr], "<=>", fldr[ifldr+1])
+for ifldr in range(0, int(len(fpairs)), 2):
+    print(fpairs[ifldr], "<=>", fpairs[ifldr+1])
     #
     # Initialise the lists
     fhead = ['']*2
@@ -75,12 +71,11 @@ for ifldr in range(0, int(len(fldr)), 2):
     flc = [0]*2
     # get the folder-pairs, with counts:
     for fpair in range(2):
-        flist[fpair], flc[fpair] = filelister(fldr[ifldr+fpair])
+        flist[fpair], flc[fpair] = filelister(fpairs[ifldr+fpair])
         print(' - file records loaded in.')
         # pull off the first item (root folder name) and append the count:
         fhead[fpair] = flist[fpair].pop(0) + ' - contains '+str(flc[fpair])
         fhead[fpair] += ' files, these ones unmatched:'
-        flc[fpair] -= 1
     #
     # Identify the index of the list to be picked through:
     # it can be the 2nd list:
@@ -94,7 +89,7 @@ for ifldr in range(0, int(len(fldr)), 2):
     # working through first list, eliminate items duplicated in the second,
     # leaving two lists of unmatched items:
     print(' Looking for differences in the records now...')
-    for ircomp in range(flc[d]):
+    for ircomp in range(1, flc[d]+1):
         # Pull off the first item from the pick-list:
         item = flist[d].pop(0)
         # print an indication of progress:
@@ -108,8 +103,12 @@ for ifldr in range(0, int(len(fldr)), 2):
     flist[2].sort()
     print(' - subdirectory records compared')
     # write the resulting unmatched items:
-    wrt2 = fhead[dl]+'\n'+'\n'.join(flist[dl])
-    wrt2 += '\n\n'+fhead[d]+'\n'+'\n'.join(flist[2])
+    wrt2 = fhead[dl]
+    if len(flist[dl]) > 0:
+        wrt2 += '\n'+'\n'.join(flist[dl])
+    wrt2 += '\n\n'+fhead[d]
+    if len(flist[2]) > 0:
+        wrt2 += '\n'+'\n'.join(flist[2])
     # and the time taken:
     wrt3 = '\n\n- took '+str(time.time()-start)
     wrt3 += ' seconds to find the differences.'+'\n\n'
