@@ -19,12 +19,30 @@ import time
 start = time.time()
 startd = datetime.datetime.now().isoformat(' ')
 
-# specify the hard drive folders that I want to look in:
 # Setup a list of folder pairs:
 fpairs = [
-    # 'WD1001FALS/Vs Conflict',
-    '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/SamsungM3/Vs Unseen',
+    # '/mnt/WD1001FALS/Music Sources',
+    # '/run/media/jo/ST3400620A/Music Sources',
+    # '/mnt/HD103SJ/Vs Arts',
+    '/mnt/HD103SJ/Vs Belief', '/run/media/jo/ST3500630A/Vs Belief',
+    '/mnt/WD1001FALS/Vs Favourite Movies',
+    '/run/media/jo/SAMSUNG/Vs Favourite Movies',
+    '/mnt/9QG2FFEE/Vs for Children',
+    '/run/media/jo/Expansion Drive/Vs for Children',
+    '/mnt/HD103SJ/Vs Fun', '/run/media/jo/SAMSUNG/Vs Fun',
+    '/mnt/9QG2FFEE/Vs History', '/run/media/jo/ST3500630A/Vs History',
+    '/mnt/HD103SJ/Vs Informatic', '/run/media/jo/ST3500630A/Vs Informatic',
+    '/mnt/9QG2FFEE/Vs Literature', '/run/media/jo/ST3500630A/Vs Literature',
+    # '/mnt/HD103SJ/Vs Movies',
+    '/mnt/9QG2FFEE/Vs Nature', '/run/media/jo/Expansion Drive/Vs Nature',
+    '/mnt/HD103SJ/Vs Shakespeare',
+    '/run/media/jo/ST3500630A/Vs Shakespeare',
+    '/mnt/9QG2FFEE/Vs Space', '/run/media/jo/Expansion Drive/Vs Space',
     '/mnt/WD1001FALS/Vs Technos', '/run/media/jo/Expansion Drive/Vs Technos',
+    '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/Vs Unseen',
+    # '/mnt/WD1001FALS/Vs War Documentaries',
+    '/mnt/WD1001FALS/Vs War Movies',
+    '/run/media/jo/Expansion Drive/Vs War Movies',
     ]
 
 
