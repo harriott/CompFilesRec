@@ -37,7 +37,7 @@ fpairs = [
     '/mnt/9QG2FFEE/Vs Nature', '/run/media/jo/Expansion Drive/Vs Nature',
     '/mnt/HD103SJ/Vs Shakespeare',
     '/run/media/jo/ST3500630A/Vs Shakespeare',
-    '/mnt/9QG2FFEE/Vs Space', '/run/media/jo/Expansion Drive/Vs Space',
+    # '/mnt/9QG2FFEE/Vs Space',
     '/mnt/WD1001FALS/Vs Technos', '/run/media/jo/Expansion Drive/Vs Technos',
     '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/Vs Unseen',
     # '/mnt/WD1001FALS/Vs War Documentaries',
