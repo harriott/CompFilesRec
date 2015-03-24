@@ -21,6 +21,8 @@ startd = datetime.datetime.now().isoformat(' ')
 
 # Setup a list of folder pairs:
 fpairs = [
+    # '/mnt/WD2000JD/Keys',
+    # '/mnt/WD2000JD/Play/Keys',
     # '/mnt/WD1001FALS/Music Sources',
     # '/run/media/jo/ST3400620A/Music Sources',
     # '/mnt/HD103SJ/Vs Arts',
@@ -35,8 +37,7 @@ fpairs = [
     '/mnt/9QG2FFEE/Vs Literature', '/run/media/jo/ST3500630A/Vs Literature',
     # '/mnt/HD103SJ/Vs Movies',
     '/mnt/9QG2FFEE/Vs Nature', '/run/media/jo/Expansion Drive/Vs Nature',
-    '/mnt/HD103SJ/Vs Shakespeare',
-    '/run/media/jo/ST3500630A/Vs Shakespeare',
+    # '/mnt/HD103SJ/Vs Shakespeare',
     # '/mnt/9QG2FFEE/Vs Space',
     '/mnt/WD1001FALS/Vs Technos', '/run/media/jo/Expansion Drive/Vs Technos',
     '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/Vs Unseen',
