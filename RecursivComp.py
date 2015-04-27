@@ -34,7 +34,7 @@ fpairs = [
     '/mnt/HD103SJ/Vs Fun', '/run/media/jo/SAMSUNG/Vs Fun',
     '/mnt/9QG2FFEE/Vs History', '/run/media/jo/ST3500630A/Vs History',
     '/mnt/HD103SJ/Vs Informatic', '/run/media/jo/ST3500630A/Vs Informatic',
-    '/mnt/9QG2FFEE/Vs Literature', '/run/media/jo/ST3500630A/Vs Literature',
+    # '/mnt/9QG2FFEE/Vs Literature',
     # '/mnt/HD103SJ/Vs Movies',
     '/mnt/9QG2FFEE/Vs Nature', '/run/media/jo/Expansion Drive/Vs Nature',
     # '/mnt/HD103SJ/Vs Shakespeare',
