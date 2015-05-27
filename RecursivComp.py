@@ -31,7 +31,7 @@ fpairs = [
     '/run/media/jo/SAMSUNG/Vs Favourite Movies',
     '/mnt/9QG2FFEE/Vs for Children',
     '/run/media/jo/Expansion Drive/Vs for Children',
-    '/mnt/HD103SJ/Vs Fun', '/run/media/jo/SAMSUNG/Vs Fun',
+    # '/mnt/HD103SJ/Vs Fun',
     # '/mnt/9QG2FFEE/Vs History',
     '/mnt/HD103SJ/Vs Informatic', '/run/media/jo/ST3500630A/Vs Informatic',
     # '/mnt/9QG2FFEE/Vs Literature',
