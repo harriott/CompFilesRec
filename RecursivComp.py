@@ -8,6 +8,11 @@ Looking recursively in pairs of directories (which are defined below),
 find differences in file contents, and list those files with their paths
 (and size in bytes), alphabetically sorted.
 If Run in Terminal is chosen, see an indication of progress printed.
+
+Input file ("<this_script's_basename>0.txt")
+should contain matched directory pairs, like this (without the leading '# '):
+/run/media/jo/SAMSUNG/AV-Stack
+/mnt/WD30EZRZ/AV-Stack
 """
 import datetime
 import os
@@ -19,32 +24,12 @@ import time
 start = time.time()
 startd = datetime.datetime.now().isoformat(' ')
 
-# Setup a list of folder pairs:
-fpairs = [
-    # '/mnt/WD2000JD/Keys',
-    # '/mnt/WD2000JD/Play/Keys',
-    # '/mnt/WD1001FALS/Music Sources',
-    # '/run/media/jo/ST3400620A/Music Sources',
-    # '/mnt/HD103SJ/Vs Arts',
-    '/mnt/HD103SJ/Vs Belief', '/run/media/jo/ST3500630A/Vs Belief',
-    '/mnt/WD1001FALS/Vs Favourite Movies',
-    '/run/media/jo/SAMSUNG/Vs Favourite Movies',
-    '/mnt/9QG2FFEE/Vs for Children',
-    '/run/media/jo/Expansion Drive/Vs for Children',
-    # '/mnt/HD103SJ/Vs Fun',
-    # '/mnt/9QG2FFEE/Vs History',
-    '/mnt/HD103SJ/Vs Informatic', '/run/media/jo/ST3500630A/Vs Informatic',
-    # '/mnt/9QG2FFEE/Vs Literature',
-    # '/mnt/HD103SJ/Vs Movies',
-    '/mnt/9QG2FFEE/Vs Nature', '/run/media/jo/Expansion Drive/Vs Nature',
-    # '/mnt/HD103SJ/Vs Shakespeare',
-    # '/mnt/9QG2FFEE/Vs Space',
-    '/mnt/WD1001FALS/Vs Technos', '/run/media/jo/Expansion Drive/Vs Technos',
-    '/mnt/WD1001FALS/Vs Unseen', '/run/media/jo/SAMSUNG/Vs Unseen',
-    # '/mnt/WD1001FALS/Vs War Documentaries',
-    '/mnt/WD1001FALS/Vs War Movies',
-    '/run/media/jo/Expansion Drive/Vs War Movies',
-    ]
+# Setup a list of folder pairs
+# ----------------------------
+# get the input filename (taken from this script's own name):
+iflnm = sys.argv[0].replace('./', '').replace('.py', '0.')+'txt'
+# get the folder pair list from it:
+fpairs = [iline.rstrip('\n') for iline in open(iflnm)]
 
 
 # function to create file lists with relative paths included:
@@ -71,9 +56,9 @@ def filelister(listdir):
 
 # Begin the output file:
 # using an output filename taken from this script's own name:
-flnm = sys.argv[0].replace('./', '').replace('.py', '.')+'txt'
+oflnm = sys.argv[0].replace('./', '').replace('.py', '1.')+'txt'
 # create a file object for output:
-fo = open(flnm, 'w')
+fo = open(oflnm, 'w')
 # create a nice header:
 wrt1 = socket.gethostname()+' disks: folder changes at '+startd+'\n\n'
 fo.write(wrt1)
@@ -132,7 +117,7 @@ for ifldr in range(0, int(len(fpairs)), 2):
     wrt3 = '\n\n- took '+str(time.time()-start)
     wrt3 += ' seconds to find the differences.'+'\n\n'
     fo.write(wrt2+wrt3)
-print('- all done, results are in \'' + flnm + '\'.')
+print('- all done, results are in \'' + oflnm + '\'.')
 
 # write and close the file object:
 fo.close()

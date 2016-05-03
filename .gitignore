@@ -1,5 +1,5 @@
 
-# Ignore the output file
-# ----------------------
+# Ignore the data files
+# ---------------------
 
-RecursivComp.txt
+RecursivComp?.txt
