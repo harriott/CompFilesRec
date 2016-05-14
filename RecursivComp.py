@@ -13,6 +13,9 @@ Input file ("<this_script's_basename>0.txt")
 should contain matched directory pairs, like this (without the leading '# '):
 /run/media/jo/SAMSUNG/AV-Stack
 /mnt/WD30EZRZ/AV-Stack
+
+in Bash, run like this:
+python3 /mnt/WD2000JD/Files/IT_stack/RecursivComp/RecursivComp.py
 """
 import datetime
 import os
