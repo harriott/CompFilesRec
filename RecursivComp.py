@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # vim: set cc=80 tw=79:
+# Joseph Harriott  http://momentary.eu/  Wed 10 Aug 2016
 
 """
 Print to file the differences in two directory structures.
@@ -30,7 +31,10 @@ startd = datetime.datetime.now().isoformat(' ')
 # Setup a list of folder pairs
 # ----------------------------
 # get the input filename (taken from this script's own name):
-iflnm = sys.argv[0].replace('./', '').replace('.py', '0.')+'txt'
+ifloc = '/mnt/WD2000JD/Dropbox/Now/Technos/IT/Cross-platform/Python/'
+thisScript = sys.argv[0].replace('./', '')
+tS_here = thisScript.rsplit('/', 1)[1]
+iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
 # get the folder pair list from it:
 fpairs = [iline.rstrip('\n') for iline in open(iflnm)]
 
@@ -59,7 +63,7 @@ def filelister(listdir):
 
 # Begin the output file:
 # using an output filename taken from this script's own name:
-oflnm = sys.argv[0].replace('./', '').replace('.py', '1.')+'txt'
+oflnm = thisScript.replace('.py', '.txt')
 # create a file object for output:
 fo = open(oflnm, 'w')
 # create a nice header:
