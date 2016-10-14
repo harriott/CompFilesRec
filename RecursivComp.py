@@ -31,7 +31,7 @@ startd = datetime.datetime.now().isoformat(' ')
 # Setup a list of folder pairs
 # ----------------------------
 # get the input filename (taken from this script's own name):
-ifloc = '/mnt/WD2000JD/Dropbox/Now/Technos/IT/Cross-platform/Python/'
+ifloc = '/mnt/WD2000JD/Dropbox/JH/Now/Technos/IT/Cross-platform/Python/'
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
 iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
@@ -63,7 +63,7 @@ def filelister(listdir):
 
 # Begin the output file:
 # using an output filename taken from this script's own name:
-oflnm = thisScript.replace('.py', '.txt')
+oflnm = ifloc+tS_here.replace('.py', '-Done.txt')
 # create a file object for output:
 fo = open(oflnm, 'w')
 # create a nice header:
