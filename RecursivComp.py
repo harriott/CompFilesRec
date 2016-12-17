@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # vim: set cc=80 tw=79:
-# Joseph Harriott  http://momentary.eu/  Wed 10 Aug 2016
+# Joseph Harriott  http://momentary.eu/  Sat 17 Dec 2016
 
 """
 Print to file the differences in two directory structures.
@@ -16,7 +16,7 @@ should contain matched directory pairs, like this (without the leading '# '):
 /mnt/WD30EZRZ/AV-Stack
 
 in Bash, run like this:
-python3 /mnt/WD2000JD/Files/IT_stack/RecursivComp/RecursivComp.py
+python3 /mnt/SDSSDA240G/More/IT_stack/RecursivComp/RecursivComp.py
 """
 import datetime
 import os
@@ -31,7 +31,7 @@ startd = datetime.datetime.now().isoformat(' ')
 # Setup a list of folder pairs
 # ----------------------------
 # get the input filename (taken from this script's own name):
-ifloc = '/mnt/WD2000JD/Dropbox/JH/Now/Technos/IT/Cross-platform/Python/'
+ifloc = '/mnt/SDSSDA240G/Dropbox/JH/k-Now/Technos/IT/Cross-platform/Python/'
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
 iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
@@ -72,61 +72,62 @@ fo.write(wrt1)
 
 # Now get the lists of files, compare them, and write the differences:
 for ifldr in range(0, int(len(fpairs)), 2):
-    print(fpairs[ifldr], "<=>", fpairs[ifldr+1])
-    if os.path.isdir(fpairs[ifldr]) and os.path.isdir(fpairs[ifldr+1]):
-        #
-        # Initialise the lists
-        fhead = ['']*2
-        # (one for each folder-pair, and one for their diff-list):
-        flist = [[], [], []]
-        # and the two counts:
-        flc = [0]*2
-        # get the folder-pairs, with counts:
-        for fpair in range(2):
-            flist[fpair], flc[fpair] = filelister(fpairs[ifldr+fpair])
-            print(' - file records loaded in.')
-            # pull off the first item (root folder name) and append the count:
-            fhead[fpair] = flist[fpair].pop(0) + ' - contains '+str(flc[fpair])
-            fhead[fpair] += ' files, these ones unmatched:'
-        #
-        # Identify the index of the list to be picked through:
-        # it can be the 2nd list:
-        d = 1
-        # but not if the 1st is shorter:
-        if flc[0] < flc[1]:
-            d = 0
-        # Get the index for the other (possibly longer) list:
-        dl = abs(d-1)
-        #
-        # working through first list, eliminate items duplicated in the second,
-        # leaving two lists of unmatched items:
-        print(' Looking for differences in the records now...')
-        for ircomp in range(1, flc[d]+1):
-            # Pull off the first item from the pick-list:
-            item = flist[d].pop(0)
-            # print an indication of progress:
-            sys.stdout.write('\r  ' + str(ircomp))
-            sys.stdout.flush()
-            try:
-                flist[dl].remove(item)
-            except ValueError:
-                flist[2].append(item)
-        flist[dl].sort()
-        flist[2].sort()
-        print(' - subdirectory records compared')
-        # write the resulting unmatched items:
-        wrt2 = fhead[dl]
-        if len(flist[dl]) > 0:
-            wrt2 += '\n'+'\n'.join(flist[dl])
-        wrt2 += '\n\n'+fhead[d]
-        if len(flist[2]) > 0:
-            wrt2 += '\n'+'\n'.join(flist[2])
-        # and the time taken:
-        wrt3 = '\n\n- took '+str(time.time()-start)
-        wrt3 += ' seconds to find the differences.'+'\n\n'
-        fo.write(wrt2+wrt3)
-    else:
-        print(' not there')
+    if fpairs[ifldr][0] != '#':
+        print(fpairs[ifldr], "<=>", fpairs[ifldr+1])
+        if os.path.isdir(fpairs[ifldr]) and os.path.isdir(fpairs[ifldr+1]):
+            #
+            # Initialise the lists
+            fhead = ['']*2
+            # (one for each folder-pair, and one for their diff-list):
+            flist = [[], [], []]
+            # and the two counts:
+            flc = [0]*2
+            # get the folder-pairs, with counts:
+            for fpair in range(2):
+                flist[fpair], flc[fpair] = filelister(fpairs[ifldr+fpair])
+                print(' - file records loaded in.')
+                # pull off the first item (root folder name) and append the count:
+                fhead[fpair] = flist[fpair].pop(0) + ' - contains '+str(flc[fpair])
+                fhead[fpair] += ' files, these ones unmatched:'
+            #
+            # Identify the index of the list to be picked through:
+            # it can be the 2nd list:
+            d = 1
+            # but not if the 1st is shorter:
+            if flc[0] < flc[1]:
+                d = 0
+            # Get the index for the other (possibly longer) list:
+            dl = abs(d-1)
+            #
+            # working through first list, eliminate items duplicated in the second,
+            # leaving two lists of unmatched items:
+            print(' Looking for differences in the records now...')
+            for ircomp in range(1, flc[d]+1):
+                # Pull off the first item from the pick-list:
+                item = flist[d].pop(0)
+                # print an indication of progress:
+                sys.stdout.write('\r  ' + str(ircomp))
+                sys.stdout.flush()
+                try:
+                    flist[dl].remove(item)
+                except ValueError:
+                    flist[2].append(item)
+            flist[dl].sort()
+            flist[2].sort()
+            print(' - subdirectory records compared')
+            # write the resulting unmatched items:
+            wrt2 = fhead[dl]
+            if len(flist[dl]) > 0:
+                wrt2 += '\n'+'\n'.join(flist[dl])
+            wrt2 += '\n\n'+fhead[d]
+            if len(flist[2]) > 0:
+                wrt2 += '\n'+'\n'.join(flist[2])
+            # and the time taken:
+            wrt3 = '\n\n- took '+str(time.time()-start)
+            wrt3 += ' seconds to find the differences.'+'\n\n'
+            fo.write(wrt2+wrt3)
+        else:
+            print(' not there')
 print('- all done, results are in \'' + oflnm + '\'.')
 
 # write and close the file object:
