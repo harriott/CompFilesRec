@@ -11,9 +11,9 @@ find differences in file contents, and list those files with their paths
 If Run in Terminal is chosen, see an indication of progress printed.
 
 Input file ("<this_script's_basename>0.txt")
-should contain matched directory pairs, like this (without the leading '# '):
-/run/media/jo/SAMSUNG/AV-Stack
-/mnt/WD30EZRZ/AV-Stack
+should contain matched directory pairs, like this:
+/run/media/jo/SAMSUNG/AV-Stack /mnt/WD30EZRZ/AV-Stack
+# comments out lines.
 
 in Bash, run like this:
 python3 /mnt/SDSSDA240G/More/IT_stack/RecursivComp/RecursivComp.py
@@ -71,10 +71,11 @@ wrt1 = socket.gethostname()+' disks: folder changes at '+startd+'\n\n'
 fo.write(wrt1)
 
 # Now get the lists of files, compare them, and write the differences:
-for ifldr in range(0, int(len(fpairs)), 2):
+for ifldr in range(0, int(len(fpairs))):
     if fpairs[ifldr][0] != '#':
-        print(fpairs[ifldr], "<=>", fpairs[ifldr+1])
-        if os.path.isdir(fpairs[ifldr]) and os.path.isdir(fpairs[ifldr+1]):
+        fpair = fpairs[ifldr].split()
+        print(fpair[0], "<=>", fpair[1])
+        if os.path.isdir(fpair[0]) and os.path.isdir(fpair[1]):
             #
             # Initialise the lists
             fhead = ['']*2
@@ -83,12 +84,12 @@ for ifldr in range(0, int(len(fpairs)), 2):
             # and the two counts:
             flc = [0]*2
             # get the folder-pairs, with counts:
-            for fpair in range(2):
-                flist[fpair], flc[fpair] = filelister(fpairs[ifldr+fpair])
+            for fpi in range(2):
+                flist[fpi], flc[fpi] = filelister(fpair[fpi])
                 print(' - file records loaded in.')
                 # pull off the first item (root folder name) and append the count:
-                fhead[fpair] = flist[fpair].pop(0) + ' - contains '+str(flc[fpair])
-                fhead[fpair] += ' files, these ones unmatched:'
+                fhead[fpi] = flist[fpi].pop(0) + ' - contains '+str(flc[fpi])
+                fhead[fpi] += ' files, these ones unmatched:'
             #
             # Identify the index of the list to be picked through:
             # it can be the 2nd list:
