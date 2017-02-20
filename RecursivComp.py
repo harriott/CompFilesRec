@@ -126,7 +126,7 @@ for ifldr in range(0, int(len(fpairs))):
             # and the time taken:
             wrt3 = '\n\n- took '+str(time.time()-start)
             wrt3 += ' seconds to find the differences.'+'\n\n'
-            fo.write(wrt2+wrt3)
+            fo.write('\n'+wrt2+wrt3)
         else:
             print(' not there')
 print('- all done, results are in \'' + oflnm + '\'.')
