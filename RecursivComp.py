@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # vim: set cc=80 tw=79:
-# Joseph Harriott  http://momentary.eu/  Sat 17 Dec 2016
+# Joseph Harriott  http://momentary.eu/  Sat 18 Mar 2017
 
 """
 Print to file the differences in two directory structures.
@@ -28,10 +28,13 @@ import time
 start = time.time()
 startd = datetime.datetime.now().isoformat(' ')
 
-# Setup a list of folder pairs
-# ----------------------------
-# get the input filename (taken from this script's own name):
+# Setup a list of folder pairs # ----------------------------
+# determine the likely directory of the input file:
 ifloc = '/mnt/SDSSDA240G/Dropbox/JH/k-Now/Technos/IT/Cross-platform/Python/'
+if not os.path.isdir(ifloc):
+    print('no directory', ifloc)
+    sys.exit()
+# get the input filename (taken from this script's own name):
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
 iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
@@ -87,7 +90,8 @@ for ifldr in range(0, int(len(fpairs))):
             for fpi in range(2):
                 flist[fpi], flc[fpi] = filelister(fpair[fpi])
                 print(' - file records loaded in.')
-                # pull off the first item (root folder name) and append the count:
+                # pull off the first item (root folder name)
+                #   and append the count:
                 fhead[fpi] = flist[fpi].pop(0) + ' - contains '+str(flc[fpi])
                 fhead[fpi] += ' files, these ones unmatched:'
             #
@@ -100,7 +104,8 @@ for ifldr in range(0, int(len(fpairs))):
             # Get the index for the other (possibly longer) list:
             dl = abs(d-1)
             #
-            # working through first list, eliminate items duplicated in the second,
+            # working through first list,
+            #   eliminate items duplicated in the second,
             # leaving two lists of unmatched items:
             print(' Looking for differences in the records now...')
             for ircomp in range(1, flc[d]+1):
