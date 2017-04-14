@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # vim: set cc=80 tw=79:
-# Joseph Harriott  http://momentary.eu/  Sat 18 Mar 2017
+# Joseph Harriott  http://momentary.eu/  Fri 14 Apr 2017
 
 """
 Print to file the differences in two directory structures.
@@ -16,7 +16,7 @@ should contain matched directory pairs, like this:
 # comments out lines.
 
 in Bash, run like this:
-python3 /mnt/SDSSDA240G/More/IT_stack/RecursivComp/RecursivComp.py
+python3 /mnt/WD30EZRZ/More/IT_stack/RecursivComp/RecursivComp.py
 """
 import datetime
 import os
@@ -30,14 +30,14 @@ startd = datetime.datetime.now().isoformat(' ')
 
 # Setup a list of folder pairs # ----------------------------
 # determine the likely directory of the input file:
-ifloc = '/mnt/SDSSDA240G/Dropbox/JH/k-Now/Technos/IT/Cross-platform/Python/'
+ifloc = '/mnt/WD30EZRZ/Dropbox/JH/k-Now/Technos/IT/Cross-platform/Python/'
 if not os.path.isdir(ifloc):
-    print('no directory', ifloc)
     sys.exit()
 # get the input filename (taken from this script's own name):
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
 iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
+print('- will use', iflnm)
 # get the folder pair list from it:
 fpairs = [iline.rstrip('\n') for iline in open(iflnm)]
 
