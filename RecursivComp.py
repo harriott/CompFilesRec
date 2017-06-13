@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # vim: set cc=80 tw=79:
-# Joseph Harriott  http://momentary.eu/  Sat 18 Mar 2017
+# Joseph Harriott  http://momentary.eu/  mar 13 juin 2017
 
 """
 Print to file the differences in two directory structures.
