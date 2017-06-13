@@ -33,11 +33,15 @@ startd = datetime.datetime.now().isoformat(' ')
 # determine the likely directory of the input file:
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 iflocs = [iline.rstrip('\n') for iline in open(scriptdir+'/ifloc.txt')]
+ifloc = ''
 for iflocline in range(0, int(len(iflocs))):
-    ifloc = iflocs[iflocline]
-    if ifloc[0] != '#':
-        if os.path.isdir(ifloc):
-            break
+    ifloctry = iflocs[iflocline]
+    if ifloctry[0] != '#':
+        if os.path.isdir(ifloctry):
+            ifloc = ifloctry
+if ifloc == '':
+    print('No valid path in  "ifloc.txt".')
+    sys.exit()
 # get the input filename (taken from this script's own name):
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
