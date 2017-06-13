@@ -17,6 +17,7 @@ should contain matched directory pairs, like this:
 
 in Bash, run like this:
 python3 /mnt/SDSSDA240G/More/IT_stack/RecursivComp/RecursivComp.py
+python3 /media/jo/BX200/Dropbox/JH/IT_stack/RecursivComp/RecursivComp.py
 """
 import datetime
 import os
@@ -30,14 +31,18 @@ startd = datetime.datetime.now().isoformat(' ')
 
 # Setup a list of folder pairs # ----------------------------
 # determine the likely directory of the input file:
-ifloc = '/mnt/SDSSDA240G/Dropbox/JH/k-Now/Technos/IT/Cross-platform/Python/'
-if not os.path.isdir(ifloc):
-    print('no directory', ifloc)
-    sys.exit()
+scriptdir = os.path.dirname(os.path.abspath(__file__))
+iflocs = [iline.rstrip('\n') for iline in open(scriptdir+'/ifloc.txt')]
+for iflocline in range(0, int(len(iflocs))):
+    ifloc = iflocs[iflocline]
+    if ifloc[0] != '#':
+        if os.path.isdir(ifloc):
+            break
 # get the input filename (taken from this script's own name):
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
 iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
+print('- will use', iflnm)
 # get the folder pair list from it:
 fpairs = [iline.rstrip('\n') for iline in open(iflnm)]
 
