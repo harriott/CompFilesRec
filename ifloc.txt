@@ -1,3 +1,0 @@
-# Possible locations of the input & output files:
-/media/jo/BX200/Dropbox/JH/Now/Technos/IT/Cross-platform/Python/N130/
-/mnt/WD30EZRZ/Dropbox/JH/Now/Technos/IT/Cross-platform/Python/sprbMb/

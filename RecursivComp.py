@@ -10,6 +10,10 @@ find differences in file contents, and list those files with their paths
 (and size in bytes), alphabetically sorted.
 If Run in Terminal is chosen, see an indication of progress printed.
 
+There should be an environment variable  machineName
+which matches a folder alongside this script,
+in which is the input file and will be the output file.
+
 Input file ("<this_script's_basename>0.txt")
 should contain matched directory pairs, like this:
 /run/media/jo/SAMSUNG/AV-Stack /mnt/WD30EZRZ/AV-Stack
@@ -18,6 +22,7 @@ should contain matched directory pairs, like this:
 in Bash, run like this:
 python3 /mnt/SDSSDA240G/More/IT_stack/RecursivComp/RecursivComp.py
 python3 /media/jo/BX200/Dropbox/JH/IT_stack/RecursivComp/RecursivComp.py
+python3 $ITstack/onGitHub/RecursivComp/RecursivComp.py
 """
 import datetime
 import os
@@ -29,23 +34,13 @@ import time
 start = time.time()
 startd = datetime.datetime.now().isoformat(' ')
 
-# Setup a list of folder pairs # ----------------------------
-# determine the likely directory of the input file:
-scriptdir = os.path.dirname(os.path.abspath(__file__))
-iflocs = [iline.rstrip('\n') for iline in open(scriptdir+'/ifloc.txt')]
-ifloc = ''
-for iflocline in range(0, int(len(iflocs))):
-    ifloctry = iflocs[iflocline]
-    if ifloctry[0] != '#':
-        if os.path.isdir(ifloctry):
-            ifloc = ifloctry
-if ifloc == '':
-    print('No valid path in  "ifloc.txt".')
-    sys.exit()
+# Setup a list of folder pairs
+# ----------------------------
+ifloc = os.environ["machineName"]
 # get the input filename (taken from this script's own name):
 thisScript = sys.argv[0].replace('./', '')
 tS_here = thisScript.rsplit('/', 1)[1]
-iflnm = ifloc+tS_here.replace('.py', '-Pairs.txt')
+iflnm = sys.path[0]+'/'+ifloc+'/'+tS_here.replace('.py', '-Pairs.txt')
 print('- will use', iflnm)
 # get the folder pair list from it:
 fpairs = [iline.rstrip('\n') for iline in open(iflnm)]
@@ -75,7 +70,7 @@ def filelister(listdir):
 
 # Begin the output file:
 # using an output filename taken from this script's own name:
-oflnm = ifloc+tS_here.replace('.py', '-Done.txt')
+oflnm = iflnm.replace('Pairs', 'Done')
 # create a file object for output:
 fo = open(oflnm, 'w')
 # create a nice header:
